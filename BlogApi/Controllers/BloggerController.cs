@@ -46,6 +46,46 @@ namespace BlogApi.Controllers
             return new { message = "Sikeres lekérdezés.", result = lista };
         }
 
+        [HttpGet("byId/{id}")]
+        public object GetBloggerById([FromRoute]int id)
+        {
+            var connector = new MySqlConnection(ConnectionString);
+
+            connector.Open();
+
+            string sql = @"SELECT * FROM blogger WHERE  id = @id";
+
+            var cmd = new MySqlCommand(sql,connector);
+
+            cmd.Parameters.AddWithValue("@id", id);
+
+            var datareader = cmd.ExecuteReader();
+            object result = null;
+
+            if (datareader.Read())
+            {
+                var blogger = new Blogger
+                {
+                    Id = datareader.GetInt32(0),
+                    Name = datareader.GetString(1),
+                    Email = datareader.GetString(2),
+                    Age = datareader.GetInt32(3),
+                    Password = datareader.GetString(4),
+                    RegistrationTime = datareader.GetDateTime(5)
+                };
+
+                result = new { message = "Sikeres lekérdezés.", result = blogger };
+            }
+            else
+            {
+                result = new { message = "Sikertlen lekérdezés.", result = "" };
+            }
+
+            connector.Close();
+
+            return result;
+        }
+
        
     }
 
