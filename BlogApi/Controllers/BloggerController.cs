@@ -1,4 +1,5 @@
 ﻿using BlogApi.Models;
+using BlogApi.Models.DTOs;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using MySqlConnector;
@@ -86,7 +87,46 @@ namespace BlogApi.Controllers
             return result;
         }
 
-       
+        [HttpPost("login")]
+        public object PostBloggerLogin([FromBody]LoginBloggerDto loginBloggerDto)
+        {
+            var connector = new MySqlConnection(ConnectionString);
+
+            connector.Open();
+
+            string sql = @"SELECT * FROM blogger WHERE  email = @email AND password = @password";
+
+            var cmd = new MySqlCommand(sql, connector);
+
+            cmd.Parameters.AddWithValue("@email", loginBloggerDto.Email);
+            cmd.Parameters.AddWithValue("@password", loginBloggerDto.Password);
+
+            var datareader = cmd.ExecuteReader();
+            object result = null;
+
+            if (datareader.Read())
+            {
+                var blogger = new Blogger
+                {
+                    Id = datareader.GetInt32(0),
+                    Name = datareader.GetString(1),
+                    Email = datareader.GetString(2),
+                    Age = datareader.GetInt32(3),
+                    Password = datareader.GetString(4),
+                    RegistrationTime = datareader.GetDateTime(5)
+                };
+
+                result = new { message = "Regisztrált tag.", result = blogger};
+            }
+            else
+            {
+                result = new { message = "Nem rgisztrált tag.", result = "" };
+            }
+
+            connector.Close();
+
+            return result;
+        }
     }
 
 }
