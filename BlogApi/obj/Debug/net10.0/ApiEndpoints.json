@@ -96,16 +96,6 @@
   },
   {
     "ContainingType": "BlogApi.Controllers.BlogPostController",
-    "Method": "NumberOfPosts",
-    "RelativePath": "blogpost",
-    "HttpMethod": "GET",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [],
-    "ReturnTypes": []
-  },
-  {
-    "ContainingType": "BlogApi.Controllers.BlogPostController",
     "Method": "GetAllBloggerAndPost",
     "RelativePath": "blogpost/getAllBloggerAndPost",
     "HttpMethod": "GET",
@@ -118,6 +108,32 @@
         "IsRequired": false
       }
     ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "BlogApi.Controllers.BlogPostController",
+    "Method": "GetBloggerPostsNumber",
+    "RelativePath": "blogpost/getBloggerPostsNumber/{id}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "BlogApi.Controllers.BlogPostController",
+    "Method": "NumberOfPosts",
+    "RelativePath": "blogpost/getNumberOfPosts",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
     "ReturnTypes": []
   }
 ]

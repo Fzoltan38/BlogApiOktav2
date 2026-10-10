@@ -13,7 +13,7 @@ namespace BlogApi.Controllers
         public readonly string ConnectionString = "server=localhost;database=blog;user=root;password=";
 
         [HttpGet("getAllBloggerAndPost")]
-        public object GetAllBloggerAndPost([FromQuery]int id)
+        public object GetAllBloggerAndPost([FromQuery] int id)
         {
             List<BlogAndPostDto> lista = new List<BlogAndPostDto>();
             var connector = new MySqlConnection(ConnectionString);
@@ -48,7 +48,7 @@ namespace BlogApi.Controllers
             return new { message = "Sikeres lekérdezés.", result = lista };
         }
 
-        [HttpGet]
+        [HttpGet("getNumberOfPosts")]
         public object NumberOfPosts()
         {
             var connector = new MySqlConnection(ConnectionString);
@@ -70,13 +70,47 @@ namespace BlogApi.Controllers
             return new { message = "Sikeres lekérdezés.", result = db };
         }
 
-        /*
-          
-         
-            6. Készítsen végpont ami lekérdezi hogy összesen hány bejeyzés(post) van az adatbázisba.
-            7. Készítsen végpontot ami lekérdezi, hogy egy adott bloger-nek hány bejegyzése van. 
-         */
+        [HttpGet("getBloggerPostsNumber/{id}")]
+        public object GetBloggerPostsNumber([FromRoute] int id)
+        {
+            var connector = new MySqlConnection(ConnectionString);
 
+            connector.Open();
+
+            string sql = @"SELECT blogger.name, COUNT(blogpost.id) AS `BejegyzesekSzama`
+                            FROM `blogger` 
+                            INNER JOIN blogpost ON blogger.id = blogpost.blogId
+                            WHERE blogger.id = @id;";
+
+            var cmd = new MySqlCommand(sql, connector);
+
+            cmd.Parameters.AddWithValue("@id", id);
+
+            var datareader = cmd.ExecuteReader();
+            object result = null;
+
+            if (datareader.Read() && datareader != null )
+            {
+                var bloggerPosts = new NumberOfBloggerPostsDto
+                {
+                    Name = datareader.GetString(0),
+                    Number = datareader.GetInt32(1)
+                };
+
+                result = new { message = "Sikeres lekérdezés.", result = bloggerPosts };
+            }
+            else
+            {
+                result = new { message = "Sikertelen lekérdezés.", result = "" };
+            }
+           
+
+
+            connector.Close();
+
+            return result;
+        }
 
     }
 }
+
