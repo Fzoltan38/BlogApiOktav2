@@ -96,6 +96,16 @@
   },
   {
     "ContainingType": "BlogApi.Controllers.BlogPostController",
+    "Method": "NumberOfPosts",
+    "RelativePath": "blogpost",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "BlogApi.Controllers.BlogPostController",
     "Method": "GetAllBloggerAndPost",
     "RelativePath": "blogpost/getAllBloggerAndPost",
     "HttpMethod": "GET",

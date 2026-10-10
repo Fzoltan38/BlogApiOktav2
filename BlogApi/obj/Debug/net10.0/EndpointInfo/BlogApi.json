@@ -214,6 +214,18 @@
           }
         }
       }
+    },
+    "/blogpost": {
+      "get": {
+        "tags": [
+          "BlogPost"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
     }
   },
   "components": {

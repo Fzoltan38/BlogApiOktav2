@@ -48,9 +48,31 @@ namespace BlogApi.Controllers
             return new { message = "Sikeres lekérdezés.", result = lista };
         }
 
+        [HttpGet]
+        public object NumberOfPosts()
+        {
+            var connector = new MySqlConnection(ConnectionString);
+
+            connector.Open();
+
+            string sql = @"SELECT COUNT(*) FROM blogpost";
+
+            var cmd = new MySqlCommand(sql, connector);
+
+            var datareader = cmd.ExecuteReader();
+
+            datareader.Read();
+
+            var db = datareader.GetInt32(0);
+
+            connector.Close();
+
+            return new { message = "Sikeres lekérdezés.", result = db };
+        }
+
         /*
           
-            5. Készítsen végpontot, ami lekérdezi egy adott blogger nevét és az összes hozzátartozó post title és content tulajdonságát.
+         
             6. Készítsen végpont ami lekérdezi hogy összesen hány bejeyzés(post) van az adatbázisba.
             7. Készítsen végpontot ami lekérdezi, hogy egy adott bloger-nek hány bejegyzése van. 
          */
