@@ -3,6 +3,7 @@ using BlogApi.Models.DTOs;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using MySqlConnector;
+using System.Xml.Linq;
 
 namespace BlogApi.Controllers
 {
@@ -218,7 +219,7 @@ namespace BlogApi.Controllers
 
             return result;
         }
-
+          /*4. Készítsen végpontot, ami lekérdezi egy adott blogger name és email értékét.*/
 
     }
 }
